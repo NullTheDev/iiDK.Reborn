@@ -1313,7 +1313,7 @@ namespace iiMenu.Mods
 
                     nametag.Value.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f) * nametag.Key.scaleFactor;
 
-                    nametag.Value.transform.position = nametag.Key.headMesh.transform.position + nametag.Key.headMesh.transform.up * Visuals.GetTagDistance(nametag.Key);
+                    nametag.Value.transform.position = Visuals.GetNameTagPosition(nametag.Key);
                     nametag.Value.transform.LookAt(Camera.main.transform.position);
                     nametag.Value.transform.Rotate(0f, 180f, 0f);
                 }
