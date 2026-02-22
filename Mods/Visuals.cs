@@ -3207,6 +3207,82 @@ namespace iiMenu.Mods
             minecraftTagBackgrounds.Clear();
         }
 
+        private static readonly Dictionary<VRRig, GameObject> castingNameTags = new Dictionary<VRRig, GameObject>();
+
+        public static void CastingTags()
+        {
+            bool hoc = Buttons.GetIndex("Hidden on Camera").enabled;
+
+            List<KeyValuePair<VRRig, GameObject>> nametagsCopy = castingNameTags.ToList();
+            foreach (var nametag in nametagsCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            {
+                Object.Destroy(nametag.Value);
+                castingNameTags.Remove(nametag.Key);
+            }
+
+            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            {
+                try
+                {
+                    if (!vrrig.isLocal || selfNameTag)
+                    {
+                        if (!castingNameTags.ContainsKey(vrrig))
+                        {
+                            GameObject go = new GameObject("iiMenu_SimplisticTag");
+                            go.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+
+                            TextMeshPro text = go.AddComponent<TextMeshPro>();
+                            text.fontSize = 4.8f;
+                            text.alignment = TextAlignmentOptions.Center;
+                            text.richText = true;
+
+                            text.spriteAsset = InfoSprites;
+
+                            castingNameTags.Add(vrrig, go);
+                        }
+
+                        GameObject nameTag = castingNameTags[vrrig];
+                        TextMeshPro tmp = nameTag.GetOrAddComponent<TextMeshPro>();
+
+                        if (hoc)
+                            nameTag.layer = 19;
+                        else
+                            nameTag.layer = 0;
+
+                        if (NameTagOptimize())
+                        {
+                            string sprite = $"<size=120%><sprite name=\"{vrrig.GetPlatform()}\"></size>";
+                            string playerName = CleanPlayerName(GetPlayerFromVRRig(vrrig).NickName);
+
+                            tmp.SafeSetText($"{sprite}<space=-0.2em>{playerName}");
+
+                            tmp.color = Color.white;
+
+                            tmp.SafeSetFontStyle(activeFontStyle);
+                            tmp.SafeSetFont(activeFont);
+                        }
+
+                        if (nameTagChams)
+                            tmp.Chams();
+
+                        nameTag.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f) * vrrig.scaleFactor;
+                        nameTag.transform.position = GetNameTagPosition(vrrig);
+                        nameTag.transform.LookAt(Camera.main.transform.position);
+                        nameTag.transform.Rotate(0f, 180f, 0f);
+                    }
+                }
+                catch { }
+            }
+        }
+
+        public static void DisableCastingTags()
+        {
+            foreach (KeyValuePair<VRRig, GameObject> nametag in castingNameTags)
+                Object.Destroy(nametag.Value);
+
+            castingNameTags.Clear();
+        }
+
         public static void FixRigColors()
         {
             foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => vrrig.mainSkin.material.name.Contains("gorilla_body") && vrrig.mainSkin.material.shader == Shader.Find("GorillaTag/UberShader")))
