@@ -23,6 +23,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using Liv.Lck.Telemetry;
 using PlayFab.EventsModels;
+using static iiMenu.Patches.PatchHandler;
 
 namespace iiMenu.Patches.Safety
 {
@@ -31,6 +32,7 @@ namespace iiMenu.Patches.Safety
     {
         public static bool enabled = true;
 
+        [PatchOnAwake]
         [HarmonyPatch(typeof(GorillaTelemetry), nameof(GorillaTelemetry.EnqueueTelemetryEvent))]
         public class TelemetryPatch1
         {
@@ -38,6 +40,7 @@ namespace iiMenu.Patches.Safety
                 !enabled;
         }
 
+        [PatchOnAwake]
         [HarmonyPatch(typeof(GorillaTelemetry), nameof(GorillaTelemetry.EnqueueTelemetryEventPlayFab))]
         public class TelemetryPatch2
         {
@@ -45,6 +48,7 @@ namespace iiMenu.Patches.Safety
                 !enabled;
         }
 
+        [PatchOnAwake]
         [HarmonyPatch(typeof(GorillaTelemetry), nameof(GorillaTelemetry.FlushPlayFabTelemetry))]
         public class TelemetryPatch3
         {
@@ -52,6 +56,7 @@ namespace iiMenu.Patches.Safety
                 !enabled;
         }
 
+        [PatchOnAwake]
         [HarmonyPatch(typeof(GorillaTelemetry), nameof(GorillaTelemetry.FlushMothershipTelemetry))]
         public class TelemetryPatch4
         {
@@ -59,6 +64,7 @@ namespace iiMenu.Patches.Safety
                 !enabled;
         }
 
+        [PatchOnAwake]
         [HarmonyPatch(typeof(LckTelemetryClient), nameof(LckTelemetryClient.SendTelemetry))]
         public class TelemetryPatch5
         {

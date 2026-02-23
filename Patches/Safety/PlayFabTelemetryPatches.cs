@@ -27,11 +27,13 @@ using System;
 using System.Collections.Generic;
 using static iiMenu.Utilities.RandomUtilities;
 using Random = UnityEngine.Random;
+using static iiMenu.Patches.PatchHandler;
 
 namespace iiMenu.Patches.Safety
 {
     public class PlayFabTelemetryPatches
     {
+        [PatchOnAwake]
         [HarmonyPatch(typeof(PlayFabDeviceUtil), nameof(PlayFabDeviceUtil.SendDeviceInfoToPlayFab))]
         public class PlayfabUtil01
         {
@@ -39,6 +41,7 @@ namespace iiMenu.Patches.Safety
                 false;
         }
 
+        [PatchOnAwake]
         [HarmonyPatch(typeof(PlayFabClientInstanceAPI), nameof(PlayFabClientInstanceAPI.ReportDeviceInfo))]
         public class PlayfabUtil02
         {
@@ -46,6 +49,7 @@ namespace iiMenu.Patches.Safety
                 false;
         }
 
+        [PatchOnAwake]
         [HarmonyPatch(typeof(PlayFabClientAPI), nameof(PlayFabClientAPI.ReportDeviceInfo))]
         public class PlayfabUtil03
         {
@@ -60,6 +64,7 @@ namespace iiMenu.Patches.Safety
                 false;
         }
 
+        [PatchOnAwake]
         [HarmonyPatch(typeof(PlayFabClientAPI), nameof(PlayFabClientAPI.AttributeInstall))]
         public class PlayfabUtil05
         {
@@ -67,6 +72,7 @@ namespace iiMenu.Patches.Safety
                 false;
         }
 
+        [PatchOnAwake]
         [HarmonyPatch(typeof(PlayFabHttp), nameof(PlayFabHttp.InitializeScreenTimeTracker))]
         public class PlayfabUtil06
         {
@@ -74,6 +80,7 @@ namespace iiMenu.Patches.Safety
                 false;
         }
 
+        [PatchOnAwake]
         [HarmonyPatch(typeof(PlayFabClientAPI), nameof(PlayFabClientAPI.UpdateUserTitleDisplayName))] // Credits to Shiny for letting me use this
         public class DisplayNamePatch
         {

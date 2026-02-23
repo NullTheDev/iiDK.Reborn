@@ -23,11 +23,13 @@ using HarmonyLib;
 using iiMenu.Managers;
 using Photon.Pun;
 using UnityEngine;
+using static iiMenu.Patches.PatchHandler;
 
 namespace iiMenu.Patches.Safety
 {
     public class AntiCheatPatches
     {
+        [SecurityPatch]
         [HarmonyPatch(typeof(MonkeAgent), nameof(MonkeAgent.SendReport))]
         public class SendReportPatch
         {
@@ -63,6 +65,7 @@ namespace iiMenu.Patches.Safety
             }
         }
 
+        [SecurityPatch]
         [HarmonyPatch(typeof(MonkeAgent), nameof(MonkeAgent.CloseInvalidRoom))]
         public class NoCloseInvalidRoom
         {
@@ -70,6 +73,7 @@ namespace iiMenu.Patches.Safety
                 false;
         }
 
+        [SecurityPatch]
         [HarmonyPatch(typeof(MonkeAgent), nameof(MonkeAgent.CheckReports))]
         public class NoCheckReports
         {
@@ -77,6 +81,7 @@ namespace iiMenu.Patches.Safety
                 false;
         }
 
+        [SecurityPatch]
         [HarmonyPatch(typeof(MonkeAgent), nameof(MonkeAgent.DispatchReport))]
         public class NoDispatchReport
         {
@@ -84,6 +89,7 @@ namespace iiMenu.Patches.Safety
                 false;
         }
 
+        [SecurityPatch]
         [HarmonyPatch(typeof(MonkeAgent), nameof(MonkeAgent.GetRPCCallTracker))]
         internal class NoGetRPCCallTracker
         {
@@ -91,6 +97,7 @@ namespace iiMenu.Patches.Safety
                 false;
         }
 
+        [SecurityPatch]
         [HarmonyPatch(typeof(MonkeAgent), nameof(MonkeAgent.LogErrorCount))]
         public class NoLogErrorCount
         {
@@ -98,6 +105,7 @@ namespace iiMenu.Patches.Safety
                 false;
         }
 
+        [SecurityPatch]
         [HarmonyPatch(typeof(MonkeAgent), nameof(MonkeAgent.QuitDelay), MethodType.Enumerator)]
         public class NoQuitDelay
         {
@@ -105,6 +113,7 @@ namespace iiMenu.Patches.Safety
                 false;
         }
 
+        [SecurityPatch]
         [HarmonyPatch(typeof(GorillaGameManager), nameof(GorillaGameManager.ForceStopGame_DisconnectAndDestroy))]
         public class NoQuitOnBan
         {
@@ -112,6 +121,7 @@ namespace iiMenu.Patches.Safety
                 false;
         }
 
+        [SecurityPatch]
         [HarmonyPatch(typeof(MonkeAgent), nameof(MonkeAgent.ShouldDisconnectFromRoom))]
         public class NoShouldDisconnectFromRoom                                                                         
         {
@@ -119,6 +129,7 @@ namespace iiMenu.Patches.Safety
                 false;
         }
 
+        [SecurityPatch]
         [HarmonyPatch(typeof(GorillaNetworkPublicTestsJoin), nameof(GorillaNetworkPublicTestsJoin.GracePeriod))]
         public class GracePeriodPatch1
         {
@@ -126,6 +137,7 @@ namespace iiMenu.Patches.Safety
                 false;
         }
 
+        [SecurityPatch]
         [HarmonyPatch(typeof(GorillaNetworkPublicTestJoin2), nameof(GorillaNetworkPublicTestJoin2.GracePeriod))]
         public class GracePeriodPatch2
         {

@@ -36,18 +36,19 @@ namespace iiMenu.Patches
 
         public static bool CriticalPatchFailed { get; internal set; }
 
-        private static readonly HashSet<Type> ImportantPatches = new HashSet<Type>
-        {
-            typeof(AntiCheatPatches)
-        };
+        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+        public class SecurityPatch : Attribute { }
 
-        public static void PatchAll()
+        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+        public class PatchOnAwake : Attribute { }
+
+        public static void PatchAll(bool awake = false)
         {
             if (IsPatched) return;
             instance ??= new Harmony(PluginInfo.GUID);
 
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes()
-                         .Where(t => t.IsClass && t.GetCustomAttribute<HarmonyPatch>() != null))
+                         .Where(t => t.IsClass && t.GetCustomAttribute<HarmonyPatch>() != null && t.GetCustomAttribute<PatchOnAwake>() != null == awake))
             {
                 try
                 {
@@ -56,7 +57,7 @@ namespace iiMenu.Patches
                 catch (Exception ex)
                 {
                     PatchErrors++;
-                    if (ImportantPatches.Any(t => t.IsAssignableFrom(type)))
+                    if (type.GetCustomAttribute<SecurityPatch>() != null)
                         CriticalPatchFailed = true;
                     CriticalPatchFailed = true;
                     LogManager.LogError($"Failed to patch {type.FullName}: {ex}");
@@ -65,7 +66,7 @@ namespace iiMenu.Patches
 
             LogManager.Log($"Patched with {PatchErrors} errors");
 
-            IsPatched = true;
+            IsPatched = !awake;
         }
 
         public static void UnpatchAll()

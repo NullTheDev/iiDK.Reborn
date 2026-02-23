@@ -87,6 +87,8 @@ namespace iiMenu
                     Directory.CreateDirectory(DirectoryTarget);
             }
 
+            PatchHandler.PatchAll(true);
+
             // Ugily hard-coded but works so well
             if (File.Exists($"{PluginInfo.BaseDirectory}/iiMenu_Preferences.txt"))
             {
