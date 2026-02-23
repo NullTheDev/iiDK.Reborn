@@ -34,7 +34,7 @@ namespace iiMenu.Patches.Safety
 
         [PatchOnAwake]
         [HarmonyPatch(typeof(GorillaTelemetry), nameof(GorillaTelemetry.EnqueueTelemetryEvent))]
-        public class TelemetryPatch1
+        public class EnqueueTelemetryEvent
         {
             private static bool Prefix(string eventName, object content, [CanBeNull] string[] customTags = null) =>
                 !enabled;
@@ -42,7 +42,7 @@ namespace iiMenu.Patches.Safety
 
         [PatchOnAwake]
         [HarmonyPatch(typeof(GorillaTelemetry), nameof(GorillaTelemetry.EnqueueTelemetryEventPlayFab))]
-        public class TelemetryPatch2
+        public class EnqueueTelemetryEventPlayFab
         {
             private static bool Prefix(EventContents eventContent) =>
                 !enabled;
@@ -50,7 +50,7 @@ namespace iiMenu.Patches.Safety
 
         [PatchOnAwake]
         [HarmonyPatch(typeof(GorillaTelemetry), nameof(GorillaTelemetry.FlushPlayFabTelemetry))]
-        public class TelemetryPatch3
+        public class FlushPlayFabTelemetry
         {
             private static bool Prefix() =>
                 !enabled;
@@ -58,7 +58,7 @@ namespace iiMenu.Patches.Safety
 
         [PatchOnAwake]
         [HarmonyPatch(typeof(GorillaTelemetry), nameof(GorillaTelemetry.FlushMothershipTelemetry))]
-        public class TelemetryPatch4
+        public class FlushMothershipTelemetry
         {
             private static bool Prefix() =>
                 !enabled;
@@ -66,7 +66,7 @@ namespace iiMenu.Patches.Safety
 
         [PatchOnAwake]
         [HarmonyPatch(typeof(LckTelemetryClient), nameof(LckTelemetryClient.SendTelemetry))]
-        public class TelemetryPatch5
+        public class SendTelemetry
         {
             private static bool Prefix(LckTelemetryEvent lckTelemetryEvent) =>
                 !enabled;
